@@ -1,61 +1,223 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# E-Commerce Inventory API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel RESTful API for e-commerce inventory management with JWT authentication.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   JWT Authentication
+-   Product Management (CRUD)
+-   Category Management
+-   Stock Management
+-   Inventory Value Calculation
+-   Product Search & Filtering
+-   Repository Pattern Implementation
+-   Request Validation
+-   Error Handling
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Clone the repository
 
-## Learning Laravel
+```bash
+git clone https://github.com/luthfyhakim/ecommerce-inventory-api.git
+cd ecommerce-inventory-api
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. Install dependencies
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+composer install && composer require tymon/jwt-auth
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. Environment setup
 
-## Laravel Sponsors
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. JWT Setup
 
-### Premium Partners
+```bash
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+php artisan jwt:secret
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+5. Database setup
 
-## Contributing
+```bash
+php artisan migrate
+php artisan db:seed
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. Start the server
 
-## Code of Conduct
+```bash
+php artisan serve
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## API Endpoints
 
-## Security Vulnerabilities
+### Authentication
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   POST `/api/v1/register` - Register new user
+-   POST `/api/v1/login` - Login user
+-   POST `/api/v1/logout` - Logout user
+-   GET `/api/v1/me` - Get current user
+
+### Products
+
+-   GET `/api/v1/products` - Get all products
+-   GET `/api/v1/products/{id}` - Get product by ID
+-   POST `/api/v1/products` - Create new product
+-   PUT `/api/v1/products/{id}` - Update product
+-   DELETE `/api/v1/products/{id}` - Delete product
+-   GET `/api/v1/products/search` - Search products
+-   POST `/api/v1/products/update-stock` - Update product stock
+
+### Categories
+
+-   GET `/api/v1/categories` - Get all categories
+-   GET `/api/v1/categories/{id}` - Get category by ID
+-   POST `/api/v1/categories` - Create new category
+-   PUT `/api/v1/categories/{id}` - Update category
+-   DELETE `/api/v1/categories/{id}` - Delete category
+
+### Inventory
+
+-   GET `/api/v1/inventory/value` - Get total inventory value
+
+## Usage Examples
+
+### Register User
+
+```bash
+curl -X POST http://localhost:8000/api/v1/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "password": "password123"
+  }'
+```
+
+### Login
+
+```bash
+curl -X POST http://localhost:8000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "admin@example.com",
+    "password": "password123"
+  }'
+```
+
+### Create Category
+
+```bash
+curl -X POST http://localhost:8000/api/v1/categories \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "name": "Electronics"
+  }'
+```
+
+### Create Product
+
+```bash
+curl -X POST http://localhost:8000/api/v1/products \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "name": "Laptop Dell",
+    "price": 12000000.00,
+    "stock_quantity": 15,
+    "category_id": 1
+  }'
+```
+
+### Search Products
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/products/search?name=laptop&category_id=1" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+### Update Stock
+
+```bash
+curl -X POST http://localhost:8000/api/v1/products/update-stock \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "product_id": 1,
+    "quantity": 20
+  }'
+```
+
+### Get Inventory Value
+
+```bash
+curl -X GET http://localhost:8000/api/v1/inventory/value \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+## API Response Format
+
+### Success Response
+
+```json
+{
+    "success": true,
+    "message": "Operation successful",
+    "data": {
+        // response data
+    }
+}
+```
+
+### Error Response
+
+```json
+{
+    "success": false,
+    "message": "Error message",
+    "error": "Detailed error information"
+}
+```
+
+## Validation Rules
+
+### Product Validation
+
+-   `name`: required, string, max 255 characters
+-   `price`: required, numeric, minimum 0
+-   `stock_quantity`: required, integer, minimum 0
+-   `category_id`: required, must exist in categories table
+
+### Category Validation
+
+-   `name`: required, string, max 255 characters, unique
+
+## Project Architecture
+
+This project follows the Repository Pattern architecture:
+
+-   **Controllers**: Handle HTTP requests responses and business logic
+-   **Repositories**: Handle data access layer
+-   **Models**: Represent database entities
+-   **Requests**: Handle input validation
+-   **Middleware**: Handle authentication and authorization
+
+## Security Features
+
+-   JWT Authentication
+-   Input validation
+-   SQL injection prevention (Eloquent ORM)
+-   Password hashing
+-   Token-based authentication
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License.
