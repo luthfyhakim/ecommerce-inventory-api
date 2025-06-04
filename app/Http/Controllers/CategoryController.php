@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;

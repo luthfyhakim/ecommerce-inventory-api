@@ -6,14 +6,14 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreCategoryRequest extends FormRequest
+class UpdateStockProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,11 +24,22 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:categories,name'
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:0'
         ];
     }
 
-    public function failedValidation(Validator $validator)
+    public function messages()
+    {
+        return [
+            'product_id.required' => 'Product ID is required',
+            'product_id.exists' => 'Product does not exist',
+            'quantity.required' => 'Quantity is required',
+            'quantity.min' => 'Quantity must be greater than or equal to 0'
+        ];
+    }
+
+    public function failedValidation(Validator $validator): HttpResponseException
     {
         throw new HttpResponseException(response()->json([
             'success'   => false,
