@@ -88,6 +88,6 @@ class CategoryController extends Controller
     {
         $this->categoryRepositoryInterface->delete($category->id);
 
-        return ApiResponseClass::sendResponse($category->id, 'Delete category successfully', 204);
+        return ApiResponseClass::sendResponse(['id' => $category->id], 'Delete category successfully', 200);
     }
 }

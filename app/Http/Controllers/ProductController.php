@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\ApiResponseClass;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
-use App\Http\Requests\UpdateStockProductRequest;
+use App\Http\Requests\Product\UpdateStockProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
@@ -107,7 +107,7 @@ class ProductController extends Controller
             $this->productRepositoryInterface->delete($product->id);
 
             DB::commit();
-            return ApiResponseClass::sendResponse(new ProductResource($product->id), 'Delete product successfully', 204);
+            return ApiResponseClass::sendResponse(['id' => $product->id], 'Delete product successfully', 200);
         } catch (\Exception $ex) {
             return ApiResponseClass::rollback($ex);
         }

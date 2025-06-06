@@ -28,6 +28,14 @@ class UpdateCategoryRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'name.required' => 'Category name is required',
+            'name.unique' => 'Category name already exists'
+        ];
+    }
+
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([

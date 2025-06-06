@@ -24,12 +24,15 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function update(array $data, $id)
     {
-        return Product::whereId($id)->update($data);
+        $product = Product::findOrFail($id);
+        $product->update($data);
+        return $product->load('category');
     }
 
     public function delete($id)
     {
-        Product::destroy($id);
+        $product = Product::with('category')->findOrFail($id);
+        $product->delete();
     }
 
     public function search(array $filters)
