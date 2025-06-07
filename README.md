@@ -2,6 +2,18 @@
 
 Laravel RESTful API for e-commerce inventory management with JWT authentication.
 
+## 🔗 API Reference
+
+You can explore and test all available API endpoints via Postman using the link below:
+
+👉 [View Full API Documentation on Postman](https://documenter.getpostman.com/view/23665827/2sB2x2LaXT)
+
+## 📽️ API Documentation Video
+
+API Documentation Video
+
+[▶️ Watch API Documentation Video](https://drive.google.com/file/d/17fXQO17c9jEyLtvzMLmDaXv-dYXzzf9r/view?usp=sharing)
+
 ## Features
 
 -   JWT Authentication
